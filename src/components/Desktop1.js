@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 
 function Desktop() {
   const [showEmail, setShowEmail] = useState(false);
   const [hasNewEmail, setHasNewEmail] = useState(true);
+
+  {/* remote control style */}
+  const Button = styled.button`
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+`;
 
   return (
     <div style={styles.desktop}>
@@ -109,13 +119,17 @@ function Desktop() {
           <div style={styles.iconLabel}>IP Tracker</div>
         </div>
       </div>
-
+      
+      
       {/* Email Popup */}
       {showEmail && (
         <div style={styles.popup}>
           <h2>Inbox</h2>
           <p><strong>From:</strong> user@example.com</p>
           <p><strong>Subject:</strong> Hey IT! I need help!</p>
+          <Button>
+            REMOTE CONTROL
+          </Button>
           <button onClick={() => setShowEmail(false)}>Close</button>
         </div>
       )}
