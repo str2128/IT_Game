@@ -1,6 +1,72 @@
-import React from 'react';
+import React , {useState} from 'react';
 
-function Desktop() {
+function Desktop2() {
+
+  const [showTMPopup, setShowTMPopup] = useState(false);
+  const [activeDesktop, setActiveDesktop] = useState('desktop1');
+
+  const styles = {
+  desktop: {
+    width: '100vw',
+    height: '100vh',
+    backgroundImage: 'url("/assets/Desktop2.jpg")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    overflow: 'hidden',
+    position: 'relative',
+  },
+
+  iconRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: '40px',
+    marginTop: '40px',
+    marginLeft: '30px',
+  },
+
+  icon: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    cursor: 'pointer',
+    width: '64px',
+  },
+
+  iconImage: {
+    width: '72px',
+    height: '72px',
+  },
+
+  iconLabel: {
+    marginTop: '8px',
+    color: 'white',
+    fontSize: '14px',
+    textAlign: 'center',
+  },
+
+  popup: {
+    position: 'fixed',
+    border: '1px solid #ccc',
+    padding: 10,
+    backgroundColor: 'white',
+    zIndex: 10,
+    width: 600,
+  },
+
+  closeButton: {
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
+    cursor: 'pointer',
+    background: 'transparent',
+    border: 'none',
+    fontSize: 18,
+  },
+};
+
   return (
     <div style={styles.desktop}>
 
@@ -58,65 +124,35 @@ function Desktop() {
 
       {/* Row 3 */}
       <div style={styles.iconRow}>
-        {/* Task Manager */}
-        <div
-          style={styles.icon}
-          onClick={() => console.log('Task Manager clicked')}
-        >
-          <img
-            src="/assets/icons/TaskManager.png"
-            alt="Task Manager"
-            style={styles.iconImage}
-          />
-          <div style={styles.iconLabel}>Task Manager</div>
-        </div>
+      {/* Task Manager icon */}
+      <div
+        style={styles.icon}
+        onClick={() => setShowTMPopup(true)}
+      >
+        <img
+          src="/assets/icons/TaskManager.PNG"
+          alt="Task Manager"
+          style={styles.iconImage}
+        />
+        <div style={styles.iconLabel}>Task Manager</div>
       </div>
+
+      {/* Simple popup */}
+      {showTMPopup && (
+        <div style={styles.popup}>
+          {/*<h3>Task Manager</h3>*/}
+          <img
+            src="/assets/taskmanager/Task_Manager.png"
+            alt="Task Manager Full"
+            style={styles.popupImage}
+          />
+          <button onClick={() => setShowTMPopup(false)}>Close</button>
+        </div>
+      )}
 
     </div>
   );
+  </div>
+  )
 }
-
-const styles = {
-  desktop: {
-    width: '100vw',
-    height: '100vh',
-    backgroundImage: 'url("/assets/Desktop2.jpg")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-
-  iconRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    gap: '40px',
-    marginTop: '40px',
-    marginLeft: '30px',
-  },
-
-  icon: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    cursor: 'pointer',
-    width: '64px',
-  },
-
-  iconImage: {
-    width: '72px',
-    height: '72px',
-  },
-
-  iconLabel: {
-    marginTop: '8px',
-    color: 'white',
-    fontSize: '14px',
-    textAlign: 'center',
-  },
-};
-
-export default Desktop;
+export default Desktop2;
