@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Desktop2 from './Desktop2';
 
-function Desktop() {
-  const [showEmail, setShowEmail] = useState(false);
-  const [hasNewEmail, setHasNewEmail] = useState(true);
-
-  {/* remote control style */}
-  const Button = styled.button`
+const Button = styled.button`
   background-color: red;
   color: white;
   padding: 10px 20px;
@@ -14,9 +10,89 @@ function Desktop() {
   cursor: pointer;
 `;
 
+function Desktop() {
+  const [showEmail, setShowEmail] = useState(false);
+  const [hasNewEmail, setHasNewEmail] = useState(true);
+  const [activeDesktop, setActiveDesktop] = useState('desktop1');
+
+  const styles = {
+    desktop: {
+      width: '100vw',
+      height: '100vh',
+      backgroundImage: 'url("/assets/Desktop1.jpg")',
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundRepeat: 'no-repeat',
+      overflow: 'hidden',
+      position: 'relative',
+    },
+    iconRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      gap: '40px',
+      marginTop: '40px',
+      marginLeft: '30px',
+    },
+    icon: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      cursor: 'pointer',
+      width: '64px',
+    },
+    iconImage: {
+      width: '72px',
+      height: '72px',
+    },
+    iconLabel: {
+      marginTop: '8px',
+      color: 'white',
+      fontSize: '14px',
+      textAlign: 'center',
+    },
+    redDot: {
+      position: 'absolute',
+      top: 2,
+      right: 2,
+      width: 10,
+      height: 10,
+      backgroundColor: 'red',
+      borderRadius: '50%',
+      border: '1px solid white',
+      zIndex: 5,
+    },
+    popup: {
+      position: 'absolute',
+      top: -300,
+      left: 120,
+      width: 300,
+      padding: 20,
+      backgroundColor: 'white',
+      border: '2px solid black',
+      borderRadius: 8,
+      zIndex: 1000,
+    },
+    mainArea: {
+      position: 'relative',
+    },
+    fullscreenDesktop: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      zIndex: 999, // make sure it's above Desktop1
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'black', // optional: or transparent, depending on Desktop2
+    }
+  };
+
   return (
     <div style={styles.desktop}>
-
       {/* Row 1 */}
       <div style={styles.iconRow}>
         {/* Email */}
@@ -119,89 +195,35 @@ function Desktop() {
           <div style={styles.iconLabel}>IP Tracker</div>
         </div>
       </div>
-      
-      
-      {/* Email Popup */}
-      {showEmail && (
+
+      {/* Popup / Desktop2 */}
+      <div style={styles.mainArea}>
+      {/* Render Desktop2 full screen if active */}
+      {activeDesktop === 'desktop2' && (
+        <div style={styles.fullscreenDesktop}>
+          <Desktop2 />
+        </div>
+      )}
+
+      {/* Render popup only if not on Desktop2 */}
+      {activeDesktop !== 'desktop2' && showEmail && (
         <div style={styles.popup}>
           <h2>Inbox</h2>
           <p><strong>From:</strong> user@example.com</p>
           <p><strong>Subject:</strong> Hey IT! I need help!</p>
-          <Button>
+
+          <Button onClick={() => {
+            setShowEmail(false);
+            setActiveDesktop('desktop2');
+          }}>
             REMOTE CONTROL
           </Button>
+
           <button onClick={() => setShowEmail(false)}>Close</button>
         </div>
       )}
     </div>
-  );
+  </div>
+);
 }
-
-const styles = {
-  desktop: {
-    width: '100vw',
-    height: '100vh',
-    backgroundImage: 'url("/assets/Desktop1.jpg")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    overflow: 'hidden',
-    position: 'relative',
-  },
-
-  iconRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    gap: '40px',
-    marginTop: '40px',
-    marginLeft: '30px',
-  },
-
-  icon: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    cursor: 'pointer',
-    width: '64px',
-  },
-
-  iconImage: {
-    width: '72px',
-    height: '72px',
-  },
-
-  iconLabel: {
-    marginTop: '8px',
-    color: 'white',
-    fontSize: '14px',
-    textAlign: 'center',
-  },
-
-  redDot: {
-    position: 'absolute',
-    top: 2,
-    right: 2,
-    width: 10,
-    height: 10,
-    backgroundColor: 'red',
-    borderRadius: '50%',
-    border: '1px solid white',
-    zIndex: 5,
-  },
-
-  popup: {
-    position: 'absolute',
-    top: 100,
-    left: 120,
-    width: 300,
-    padding: 20,
-    backgroundColor: 'white',
-    border: '2px solid black',
-    borderRadius: 8,
-    zIndex: 1000,
-  },
-};
-
 export default Desktop;
