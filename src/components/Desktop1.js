@@ -83,11 +83,11 @@ function Desktop() {
       left: 0,
       width: '100vw',
       height: '100vh',
-      zIndex: 999, // make sure it's above Desktop1
+      zIndex: 999,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: 'black', // optional: or transparent, depending on Desktop2
+      backgroundColor: 'black', 
     }
   };
 
@@ -198,14 +198,12 @@ function Desktop() {
 
       {/* Popup / Desktop2 */}
       <div style={styles.mainArea}>
-      {/* Render Desktop2 full screen if active */}
       {activeDesktop === 'desktop2' && (
         <div style={styles.fullscreenDesktop}>
           <Desktop2 />
         </div>
       )}
 
-      {/* Render popup only if not on Desktop2 */}
       {activeDesktop !== 'desktop2' && showEmail && (
         <div style={styles.popup}>
           <h2>Inbox</h2>

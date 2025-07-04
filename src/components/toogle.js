@@ -6,65 +6,73 @@ const popupImages = [
   '/assets/popups/popup3.jpg',
 ];
 
-const Toogle = () => {
+const Toogle = ({ onExit, cleared, onClear }) => {
   const [popups, setPopups] = useState([]);
   const [showClearButton, setShowClearButton] = useState(false);
+  const [loaded, setLoaded] = useState(false); 
 
-  const spawnPopup = () => {
-    const popupSrc = popupImages[Math.floor(Math.random() * popupImages.length)];
-    const randomX = Math.floor(Math.random() * (window.innerWidth - 320));
-    const randomY = Math.floor(Math.random() * (window.innerHeight - 320));
-
-    setPopups(prev => [
-      ...prev,
-      {
-        id: Date.now() + Math.random(),
-        src: popupSrc,
-        top: randomY,
-        left: randomX,
+ 
+  useEffect(() => {
+    const img = new Image();
+    img.src = "/assets/toogle/toogle1.jpg";
+    img.onload = () => {
+      setLoaded(true);
+      if (!cleared) {
+        for (let i = 0; i < 5; i++) {
+          setTimeout(() => {
+            const popupSrc = popupImages[Math.floor(Math.random() * popupImages.length)];
+            const randomX = Math.floor(Math.random() * (window.innerWidth - 320));
+            const randomY = Math.floor(Math.random() * (window.innerHeight - 320));
+            setPopups(prev => [
+              ...prev,
+              { id: Date.now() + Math.random(), src: popupSrc, top: randomY, left: randomX },
+            ]);
+          }, i * 50);
+        }
       }
-    ]);
+    };
+  }, [cleared]);
+
+  
+  const handleClear = () => {
+    setPopups([]);
+    onClear(); 
   };
 
-  useEffect(() => {
-    for (let i = 0; i < 5; i++) {
-      setTimeout(spawnPopup, i * 50);
-    }
-  }, []);
+  if (!loaded) return null;
 
   return (
     <div style={styles.wrapper}>
-      
-      {/* Background */}
+
+      {/* Toogle Background */}
       <img
         src="/assets/toogle/toogle1.jpg"
         alt="Toogle"
         style={styles.toogleImage}
       />
 
-      {/* Settings button */}
+      {/* Settings Button */}
       <button
         style={styles.settingsButton}
-        onClick={() => setShowClearButton(prev => !prev)} // TOGGLE on click
+        onClick={() => setShowClearButton(prev => !prev)}
       >
-        <img
-          src="/assets/toogle/gear.png"
-          alt="Settings"
-          style={styles.settingsIcon}
-        />
+        <img src="/assets/toogle/gear.png" alt="Settings" style={styles.settingsIcon} />
       </button>
 
-      {/* Clear All Windows */}
+      {/* Clear All Popups */}
       {showClearButton && (
         <img
           src="/assets/toogle/clearAllWindows.png"
           alt="Clear All Windows"
-          onClick={() => setPopups([])}
+          onClick={handleClear}
           style={styles.clearImage}
         />
       )}
 
-      {/* Popups */}
+      {/* ✕ Button */}
+      <button style={styles.exitButton} onClick={onExit}>✕</button>
+
+      {/* popup images */}
       {popups.map((popup) => (
         <img
           key={popup.id}
@@ -91,7 +99,7 @@ const styles = {
     width: '100vw',
     height: '100vh',
     overflow: 'hidden',
-    backgroundColor: '#000',
+    backgroundColor: '#000', 
   },
   toogleImage: {
     width: '100%',
@@ -122,6 +130,20 @@ const styles = {
     cursor: 'pointer',
     zIndex: 3000,
   },
+  exitButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    zIndex: 4000,
+    background: 'rgba(255,255,255,0.9)',
+    border: 'none',
+    fontSize: 22,
+    borderRadius: '50%',
+    width: 38,
+    height: 38,
+    cursor: 'pointer',
+    fontWeight: 'bold',
+  }
 };
 
 export default Toogle;
