@@ -86,8 +86,7 @@ function Desktop() {
       zIndex: 999,
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: 'black', 
+      justifyContent: 'center', 
     }
   };
 
@@ -199,9 +198,9 @@ function Desktop() {
       {/* Popup / Desktop2 */}
       <div style={styles.mainArea}>
       {activeDesktop === 'desktop2' && (
-        <div style={styles.fullscreenDesktop}>
-          <Desktop2 />
-        </div>
+          <div style={styles.fullscreenDesktop}>
+            <Desktop2 goBack={() => setActiveDesktop('desktop1')} />
+          </div>
       )}
 
       {activeDesktop !== 'desktop2' && showEmail && (

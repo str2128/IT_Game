@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Toogle from './Toogle';
 
-function Desktop2() {
+function Desktop2({ goBack }) {
   const [showToogle, setShowToogle] = useState(false);        
   const [toogleCleared, setToogleCleared] = useState(false);  
 
@@ -42,6 +42,26 @@ function Desktop2() {
       fontSize: '14px',
       textAlign: 'center',
     },
+
+    backButton: {
+      position: 'absolute',
+      bottom: '20px',
+      left: '20px',
+      backgroundColor: 'transparent',
+      border: 'none',
+      padding: '0',
+      cursor: 'pointer',
+      zIndex: 1000,
+    },
+    
+    backArrowImage: {
+      width: '64px',
+      height: '64px',
+      objectFit: 'cover',
+      display: 'block',
+    }
+
+
   };
 
   return (
@@ -96,6 +116,17 @@ function Desktop2() {
           />
         </div>
       )}
+
+      {/* Back Button */}
+      <button style={styles.backButton} onClick={goBack}>
+        <img
+        src="/assets/icons/backArrow.png"
+        alt="Back"
+        style={styles.backArrowImage}
+        />
+      </button>
+
+
     </div>
   );
 }
